@@ -1,6 +1,17 @@
-//comments - needs users table added in + user table made primary table
+//comments -  user table to check is primary table
 
 //table structure
+
+CREATE TABLE USERS(
+	USERID int,
+	GYMID int not null,
+	FORENAME varchar (50),
+	SURNAME varchar (50) not null,
+	AGE int not null,
+	EMAIL varchar (50) not null,
+	MOBILE int not null,
+	PRIMARY KEY (USERID)
+) engine = innodb;
 
 CREATE TABLE GYMLOCATION(
     USERNAME int,
@@ -9,10 +20,9 @@ CREATE TABLE GYMLOCATION(
     City varchar (50) not null,
     PostCode varchar (50) not null,
     Address varchar (300) not null,
-    PRIMARY KEY (GYMID)
-    foreign key (USERNAME) references USERS(FORENAME)
-    engine = innodb;
-    );
+    PRIMARY KEY (GYMLOCATIONID),
+    FOREIGN KEY (USERNAME) REFERENCES USERS(USERID)
+   ) engine = innodb;
 
 CREATE TABLE SUBSCRIPTION(
     USERID int,
@@ -25,7 +35,7 @@ CREATE TABLE SUBSCRIPTION(
     PriceYear Decimal (4,4) not null,
     SubscriptionLength varchar (50) not null,
     PRIMARY KEY (SUBSCRIPTIONID),
-    foreign key (USERID) references USERS(USER_ID)
+    foreign key (USERID) references USERS(USERID)
     ) engine = innodb;
 
 CREATE TABLE CLASS(
@@ -37,7 +47,7 @@ CREATE TABLE CLASS(
 	TIME varchar (50) not null,
 	FITNESSLEVEL int not null,
 PRIMARY KEY (CLASSID),
-  foreign key (GYM_ID) references GYMLOCATION(GYMID)
+  foreign key (GYM_ID) references GYMLOCATION(GYMLOCATIONID)
     ) engine = innodb;
 
 CREATE TABLE DISCOUNT(
@@ -45,10 +55,10 @@ CREATE TABLE DISCOUNT(
 	GYM_ID int not null,
 	NAME varchar (50) not null,
 	PERCENTAGE int not null,
-	EXPIRATION decimal (3,3) not null
+	EXPIRATION decimal (3,3) not null,
 	PRIMARY KEY (DISCOUNTID),
-  foreign key (GYM_ID) references GYMLOCATION(GYMID)
-    ) engine = gymdb;
+  foreign key (GYM_ID) references GYMLOCATION(GYMLOCATIONID)
+    ) engine = innodb;
 
 CREATE TABLE FACILITY(
 	FACILITYID int not null,
@@ -61,7 +71,7 @@ CREATE TABLE FACILITY(
 	ONSITECRECHE boolean not null,
 	DRINKSANDFO0OD boolean not null,
 	PRIMARY KEY (FACILITYID),
- foreign key (GYM_ID) references GYMLOCATION(GYMID)
+ foreign key (GYM_ID) references GYMLOCATION(GYMLOCATIONID)
     ) engine = innodb;
 
 CREATE TABLE DRINKSANDFOOD(
@@ -70,12 +80,15 @@ CREATE TABLE DRINKSANDFOOD(
 	VENDINGMACHINESNACKS varchar (50) not null,
 	VENDINGMACHINEDRINKS varchar (50) not null,
 	ONSITECAFE varchar (50) not null,
-	ONSITECLOTHING varchar (50) not null
+	ONSITECLOTHING varchar (50) not null,
 	PRIMARY KEY (DRINKSANDFOODID),
 	foreign key (FACILITY_ID) references FACILITY(FACILITYID)
 ) engine = innodb;
 
 //current table data
+
+insert into USERS(USERID,GYMID,FORENAME,SURNAME,AGE,EMAIL,MOBILE)
+values ('NULL','1','EDWARD','SHEERAN','31','esheeran@hotmail.com','07849493774');
 
 insert into GYMLOCATION(USERNAME,GYMLOCATIONID, GYMNAME, City, PostCode, Address)
 values ('NULL','1','Pauls','Oxford','OX1 1PT','LittleGate House, 16-17 St Ebbes St, Oxford'),
@@ -91,8 +104,8 @@ values ('NULL','1','Pauls','Oxford','OX1 1PT','LittleGate House, 16-17 St Ebbes 
 
 
 insert into SUBSCRIPTION(USERID,SUBSCRIPTIONID, SUBSCRIPTIONTYPE, Access, MultiGym, AccessToClass, PriceMonth, PriceYear, SubscriptionLength)
-values ('Null',''1','Off Peak','Off Peak hours','No','8 classes a week','9.99','99.99','6months, 1 year, 3 years'),
-       ('Null','2','Core','Unlimited Access','Yes for added fee', '8 classes a week','12.99','129.99','6 months, 1 year'),
+values ('Null','1','Off Peak','Off Peak hours','No','8 classes a week','9.99','99.99','6months, 1 year, 3 years'),
+       ('Null','2','Core','Unlimited Access','Yes for added fee','8 classes a week','12.99','129.99','6 months, 1 year'),
        ('Null','3','Plus','Unlimited Access','Yes','12 classes a week','18.99','179.99','6 months, 1 year');
 
 
@@ -109,14 +122,14 @@ values ('1','Oxford','Yes','Yes','No','No'),
        ('10','Newcastle','Yes','Yes','No','No');
 
 insert into CLASS(CLASSID, GYM_ID, CLASSTYPE, NAME, DURATION, TIME, FITNESSLEVEL)
-values ('1','Cardio','Cycle','50','09:00, 12:00, 18:00','1'),
-       ('2','Cardio','Burn it','50','08:00, 11:00, 17:00, 20:00','2'),
-       ('3','Weights','Abs','20','07:00, 12:00, 18:00','2'),
-       ('4','Weights','Legs, bums and tums','50','09:00, 14:00, 19:00','3'),
-       ('5','Wellbeing Yoga','30','09:00, 11:00, 14:00, 18:00','1'),
-       ('6','Wellbeing Pilates','60','17:00, 21:00','1'),
-       ('7','Mix Sweat','60','09:00, 12:00, 14:00','2'),
-       ('8','Mix Strength and Tone','60','14:00, 18:00, 20:00','3');
+values ('1','NULL','Cardio','Cycle','50','09:00, 12:00, 18:00','1'),
+       ('2','NULL','Cardio','Burn it','50','08:00, 11:00, 17:00, 20:00','2'),
+       ('3','NULL','Weights','Abs','20','07:00, 12:00, 18:00','2'),
+       ('4','NULL','Weights','Legs, bums and tums','50','09:00, 14:00, 19:00','3'),
+       ('5','NULL','Wellbeing', 'Yoga','30','09:00, 11:00, 14:00, 18:00','1'),
+       ('6','NULL','Wellbeing', 'Pilates','60','17:00, 21:00','1'),
+       ('7','NULL','Mix', 'Sweat','60','09:00, 12:00, 14:00','2'),
+       ('8','NULL','Mix', 'Strength and Tone','60','14:00, 18:00, 20:00','3');
 
 insert into DISCOUNT(DISCOUNTID,GYM_ID,NAME,PERCENTAGE,EXPIRATION)
 values ('1','1','Student Discount','30','6'),
@@ -137,3 +150,6 @@ values ('1','Oxford','Yes','Yes','Yes','No','No','No','No'),
        ('10','Newcastle','Yes','Yes','No','Yes','No','No','No');
 
 
+//EXPORT CODE
+exit
+C:\xampp\mysql\bin>mysqldump -uroot gymnodata > C:\xampp\MySQL\GYMNODATA.sql
