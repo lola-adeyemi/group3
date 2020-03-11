@@ -152,4 +152,4 @@ values ('1','Oxford','Yes','Yes','Yes','No','No','No','No'),
 
 //EXPORT CODE
 exit
-C:\xampp\mysql\bin>mysqldump -uroot gymnodata > C:\xampp\MySQL\GYMNODATA.sql
+C:\xampp\mysql\bin>mysqldump -uroot gymdata > C:\xampp\MySQL\GYMDATA.sql
