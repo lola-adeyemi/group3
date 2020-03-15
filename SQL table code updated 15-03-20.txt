@@ -1,0 +1,155 @@
+//comments -  user table to check is primary table
+
+//table structure
+
+CREATE TABLE USERS(
+	USERID int,
+	GYMLOCATIONID int not null,
+	FORENAME varchar (50),
+	SURNAME varchar (50) not null,
+	AGE int not null,
+	EMAIL varchar (50) not null,
+	MOBILE int not null,
+	PRIMARY KEY (USERID)
+) engine = innodb;
+
+
+
+CREATE TABLE SUBSCRIPTION(
+    SUBSCRIPTIONID int not null,
+    SUBSCRIPTIONTYPE varchar (50) not null,
+    Access varchar (50) not null,
+    MultiGym varchar (50) not null,
+    AccessToClass varchar (50) not null,
+    PriceMonth Decimal (4,4) not null,
+    PriceYear Decimal (4,4) not null,
+    SubscriptionLength varchar (50) not null,
+    PRIMARY KEY (SUBSCRIPTIONID)
+    ) engine = innodb;
+
+CREATE TABLE CLASS(
+	CLASSID int not null,
+	GYM_ID int not null,
+	CLASSTYPE varchar (50) not null,
+	NAME varchar (50) not null,
+	DURATION int not null,
+	TIME varchar (50) not null,
+	FITNESSLEVEL int not null,
+PRIMARY KEY (CLASSID),
+  foreign key (GYM_ID) references GYMLOCATION(GYMLOCATIONID)
+    ) engine = innodb;
+
+CREATE TABLE DISCOUNT(
+	DISCOUNTID int not null,
+	GYM_ID int not null,
+	NAME varchar (50) not null,
+	PERCENTAGE int not null,
+	EXPIRATION decimal (3,3) not null,
+	PRIMARY KEY (DISCOUNTID),
+  foreign key (GYM_ID) references GYMLOCATION(GYMLOCATIONID)
+    ) engine = innodb;
+
+CREATE TABLE FACILITY(
+	GYMLOCATION_ID int not null,
+	LOCATION varchar (50) not null,
+	WEIGHTROOM boolean not null,
+	CARDIOROOM boolean not null,
+	SWIMMINGPOOL boolean not null,
+	SAUNA boolean not null,
+	STEAMROOM boolean not null,
+	ONSITECRECHE boolean not null,
+	DRINKSANDFO0OD boolean not null,
+	PRIMARY KEY (LOCATION),
+ foreign key (GYMLOCATION_ID) references GYMLOCATION(GYMLOCATIONID)
+    ) engine = innodb;
+
+CREATE TABLE DRINKSANDFOOD(
+	DRINKSANDFOODID int not null,
+	VENDINGMACHINESNACKS varchar (50) not null,
+	VENDINGMACHINEDRINKS varchar (50) not null,
+	ONSITECAFE varchar (50) not null,
+	ONSITECLOTHING varchar (50) not null,
+	PRIMARY KEY (DRINKSANDFOODID)
+	) engine = innodb;
+
+CREATE TABLE GYMLOCATION(
+    GYMLOCATIONID int not null,
+    GYMNAME varchar (50) not null,
+    City varchar (50) not null,
+    PostCode varchar (50) not null,
+    Address varchar (300) not null,
+    SUBSCRIPTION_ID int not null,
+    DRINKSANDFOOD_ID int not null,
+    PRIMARY KEY (GYMLOCATIONID),
+    FOREIGN KEY (SUBSCRIPTION_ID) REFERENCES SUBSCRIPTION (SUBSCRIPTIONID),
+    FOREIGN KEY (DRINKSANDFOOD_ID) REFERENCES DRINKSANDFOOD (DRINKSANDFOODID)
+   ) engine = innodb;
+
+//current table data
+
+insert into USERS(USERID,GYMLOCATIONID,FORENAME,SURNAME,AGE,EMAIL,MOBILE)
+values ('NULL','1','EDWARD','SHEERAN','31','esheeran@hotmail.com','07849493774');
+
+insert into GYMLOCATION(GYMLOCATIONID, GYMNAME, City, PostCode, Address,SUBSCRIPTION_ID,DRINKSANDFOOD_ID)
+values ('1','Pauls','Oxford','OX1 1PT','LittleGate House, 16-17 St Ebbes St, Oxford','2','1'),
+       ('2','Best','London Piccadilly','SW14 4PE','4-12, Rex House Regent Street London','1','2'),
+       ('3','Strong','Leeds','LS1 2HD','4 Cloth Hall, Leeds','3','3'),
+       ('4','Strong','Manchester','M1 1PD','90-100 Market St, Manchester','2','4'),
+       ('5','Strong','Liverpool','L1 1QE','Lewiss,40 Ranelagh St, Liverpool','2','5'),
+       ('6','Best','Edinburgh','EH3 8RA','1-7 W Approach Rd, Conference Square, Edinburgh','1','6'),
+       ('7','Strong','Cambridge','CB1 1PS','2nd Floor, Grafton Centre, Cambridge','3','7'),
+       ('8','Pauls','Plymouth','PL4 7EF','Endeavour House, Alexandra Rd, Mutley, Plymouth','2','8'),
+       ('9','Pauls','York','YO30 4TU','Stirling Rd, York','1','9'),
+       ('10','Strong','Newcastle','NE1 7RA','Eldon Garden Shopping Centre, Percy St, Newcastle upon Tyne','2','10');
+
+
+insert into SUBSCRIPTION(SUBSCRIPTIONID, SUBSCRIPTIONTYPE, Access, MultiGym, AccessToClass, PriceMonth, PriceYear, SubscriptionLength)
+values ('1','Off Peak','Off Peak hours','No','8 classes a week','9.99','99.99','6months, 1 year, 3 years'),
+       ('2','Core','Unlimited Access','Yes for added fee','8 classes a week','12.99','129.99','6 months, 1 year'),
+       ('3','Plus','Unlimited Access','Yes','12 classes a week','18.99','179.99','6 months, 1 year');
+
+
+insert into DRINKSANDFOOD(DRINKSANDFOODID, VENDINGMACHINESNACKS, VENDINGMACHINEDRINKS, ONSITECAFE, ONSITECLOTHING)
+values ('1','Yes','Yes','No','No'),
+       ('2','Yes','Yes','Yes','Yes'),
+       ('3','Yes','Yes','No','No'),
+       ('4','Yes','Yes','Yes','Yes'),
+       ('5','No','No','No','No'),
+       ('6','Yes','Yes','No','No'),
+       ('7','Yes','Yes','Yes','Yes'),
+       ('8','No','No','No','No'),
+       ('9','Yes','Yes','Yes','Yes'),
+       ('10','Yes','Yes','No','No');
+
+insert into CLASS(CLASSID, GYM_ID, CLASSTYPE, NAME, DURATION, TIME, FITNESSLEVEL)
+values ('1','3','Cardio','Cycle','50','09:00, 12:00, 18:00','1'),
+       ('2','3','Cardio','Burn it','50','08:00, 11:00, 17:00, 20:00','2'),
+       ('3','3','Weights','Abs','20','07:00, 12:00, 18:00','2'),
+       ('4','2','Weights','Legs, bums and tums','50','09:00, 14:00, 19:00','3'),
+       ('5','2','Wellbeing', 'Yoga','30','09:00, 11:00, 14:00, 18:00','1'),
+       ('6','1','Wellbeing', 'Pilates','60','17:00, 21:00','1'),
+       ('7','1','Mix', 'Sweat','60','09:00, 12:00, 14:00','2'),
+       ('8','2','Mix', 'Strength and Tone','60','14:00, 18:00, 20:00','3');
+
+insert into DISCOUNT(DISCOUNTID,GYM_ID,NAME,PERCENTAGE,EXPIRATION)
+values ('1','1','Student Discount','30','6'),
+       ('2','1','Advance Payment','10','2'),
+       ('3','2','March joining disco','20','1'),
+       ('4','3','Free trial','100','0.1');
+
+insert into FACILITY(GYMLOCATION_ID,LOCATION,WEIGHTROOM,CARDIOROOM,SWIMMINGPOOL,SAUNA,STEAMROOM,ONSITECRECHE)
+values ('1','Oxford','Yes','Yes','Yes','No','No','No'),
+       ('2','London Piccadilly','Yes','Yes','Yes','Yes','Yes','Yes'),
+       ('3','Leeds','Yes','Yes','No','Yes','No','No'),
+       ('3','Manchester','Yes','Yes','Yes','Yes','Yes','No'),
+       ('3','Liverpool','Yes','Yes','No','No','Yes','No'),
+       ('2','Edinburgh','Yes','Yes','No','Yes','Yes','No'),
+       ('1','Cambridge','Yes','Yes','Yes','No','No','No'),
+       ('2','Plymouth','Yes','Yes','No','Yes','No','No'),
+       ('3','York','Yes','Yes','Yes','No','No','No'),
+       ('1','Newcastle','Yes','Yes','No','Yes','No','No');
+
+
+//EXPORT CODE
+exit
+C:\xampp\mysql\bin>mysqldump -uroot gymdata > C:\xampp\MySQL\GYMDATA.sql
