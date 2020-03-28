@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+    </head>
+    <body>
+        <?php
+        
+        class Discount {
+            
+            //table fields
+            private $discountid;
+            private $gymid;
+            public  $name;
+            public  $percentage;
+            public  $expiration;
+            
+            
+            //for information on discount
+            
+            function __construct($discountid,$gymid,$name,$percentage,$expiration) {
+                    $this->discountid=$discountid;
+                    $this->gymid=$gymid;
+                    $this->name=$name;
+                    $this->percentage=$percentage;
+                    $this->expiration=$expiration;
+            }
+            
+            public function getName() {
+                return $this->name;
+            }
+        
+            public function getPercentage() {
+                return $this->percentage;
+            }
+            
+            public function getExpiration() {
+                
+                return $this->expiration;
+            }
+        }
+        
+        //test
+        $discountinfo = new Discount("private","private","student"," 15%"," 6 months");
+        echo $discountinfo ->getName();
+        echo $discountinfo ->getPercentage();
+        echo $discountinfo ->getExpiration();
+
+
+        class Facility {
+            
+            //table fields
+            private $facilityid;
+            private $gymid;
+            public  $weightsroom;
+            public  $cardioroom;
+            public  $swimmingpool;
+            public  $sauna;
+            public  $steamroom;
+            public  $creche;
+            public  $drinksandfood;
+            
+            
+            //for information on discount
+            
+            function __construct($facilityid,$gymid,$weightsroom,$cardioroom,$swimmingpool,$sauna,$steamroom,$creche,$drinksandfood) {
+                    $this->facilityid=$facilityid;
+                    $this->gymid=$gymid;
+                    $this->weightsroom=$weightsroom;
+                    $this->cardioroom=$cardioroom;
+                    $this->swimmingpool=$swimmingpool;
+                    $this->sauna=$sauna;
+                    $this->steamroom=$steamroom;
+                    $this->creche=$creche;
+                    $this->drinksandfood=$drinksandfood;
+            }
+            
+            public function getWeightroom() {
+                return $this->weightsroom;
+            }
+        
+            public function getCardioroom() {
+                return $this->cardioroom;
+            }
+            
+            public function getSwimmingpool() {
+                return $this->swimmingpool;
+            }
+            
+            public function getSauna() {
+                return $this->sauna;
+            }
+            
+            public function getSteamroom () {
+                return $this->steamroom;
+            }
+            
+            public function getCreche () {
+                return $this->creche;
+            }
+        
+            public function getDrinksandfood() {
+                return $this->drinksandfood;
+            }
+            
+            }
+        
+        //test
+        $facilityinfo = new facility("private","private"," yes "," no "," yes "," yes "," no "," yes "," no ");
+        echo 'Weight room -'.$facilityinfo ->getWeightroom();
+        echo 'Cardio room -'.$facilityinfo ->getCardioroom();
+        echo 'Swimming pool-'.$facilityinfo ->getSwimmingpool();
+        echo 'Sauna-'.$facilityinfo->getSauna();
+        echo 'Steam room-'.$facilityinfo->getSteamroom();
+        echo 'Creche-'.$facilityinfo->getCreche();
+        echo 'Drinks and food-'.$facilityinfo->getDrinksandfood();
+
+
+
+
+        
+        ?>
+    </body>
+</html>
