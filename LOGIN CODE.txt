@@ -1,0 +1,53 @@
+// LOGIN CODE
+
+<?php
+require_once 'dbconfig.php';
+
+
+class login
+{   
+    
+
+   public function login($username, $pass) {  
+        $pass = md5($pass);  
+$check = mysql_query("Select * from users where username='$username' and password='$pass'");  
+        $data = mysql_fetch_array($check);  
+        $result = mysql_num_rows($check);  
+        if ($result == 1) {  
+            $_SESSION['login'] = true;  
+            $_SESSION['id'] = $data['id'];  
+    if($sql['level']== "admin"){
+             header("Location: loginsuccess.php");                  
+       }
+       else if($sql['level']== "user"){
+             header("Location: loginsuccess.php"); 
+       }
+       echo 'incorrect details';
+}
+else echo 'details missing';
+}
+   
+  
+    public function session() {  
+        if (isset($_SESSION['login'])) {  
+            return $_SESSION['login'];  
+        }  
+    }  
+  
+  
+    public function logout() {  
+        $_SESSION['login'] = false;  
+        session_destroy();  
+	header("Location:homepage.php")
+}
+
+}   
+    
+
+
+//function logout {
+//session_start();
+//$_SESSION["User"] = "";
+//session_destroy();
+//
+//};
